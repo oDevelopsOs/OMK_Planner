@@ -1,19 +1,43 @@
-import React, { useState } from 'react';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
-import { Link } from 'react-router-dom';
-import Assitant from '../components/Assitant';
+import { useState } from 'react';
+import { lazy } from 'react';
+import { Link , useNavigate} from 'react-router-dom';
+import axios from 'axios';
+
+const Header = lazy(()=> import('../components/Header'));
+const Footer = lazy(()=> import('../components/Footer'));
+const Assitant = lazy(()=> import('../components/Assitant'));
 
 export default function SignIn() {
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
-  const handleFormSubmit = (e) => {
-    e.preventDefault();
-    console.log('Email:', email);
-    console.log('Password:', password);
-    console.log('Name:', name);
+
+  const handleFormSubmit = async (e) => {
+    try {
+      e.preventDefault();
+
+      const response = await axios.post('http://localhost:3000/users/new-user/', {
+        name: name,
+        email: email,
+        password: password
+      });
+
+      console.log('Email:', email);
+      console.log('Password:', password);
+      console.log('Name:', name);
+      
+      setEmail('')
+      setName('')
+      setPassword('')
+
+
+      navigate('/singin')
+    } catch (error) {
+      return new Error(error)
+    }
+   
     // Aquí es donde añadirías la lógica para enviar los datos al backend
   };
 
@@ -32,7 +56,7 @@ export default function SignIn() {
                 type="name"
                 id="name"
                 name="name"
-                value={email}
+                value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="Enter your name"
                 className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-lg bg-white "
@@ -77,6 +101,7 @@ export default function SignIn() {
             <div>
               <button
                 type="submit"
+                onClick={handleFormSubmit}
                 className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-xl font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
               >
                 Sign Up

@@ -1,4 +1,3 @@
-import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 // Esta función es solo un ejemplo. En una aplicación real, puedes obtener el estado de autenticación desde el contexto, Redux, o cualquier otra forma de manejo de estado global.

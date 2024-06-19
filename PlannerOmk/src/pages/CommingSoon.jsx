@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+/* eslint-disable react/no-unescaped-entities */
+import { useEffect, useState } from 'react';
 
 export default function CommingSoon() {
   const calculateTimeLeft = () => {
@@ -52,5 +53,5 @@ export default function CommingSoon() {
       </div>
     </div>
   );
-};
+}
 

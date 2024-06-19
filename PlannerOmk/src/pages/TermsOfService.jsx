@@ -1,5 +1,6 @@
-import Footer from "../components/Footer";
-import Header from "../components/Header";
+import { lazy } from 'react';
+const Header = lazy(()=> import('../components/Header'));
+const Footer = lazy(()=> import('../components/Footer'));
 
 export default function TermsOfService() {
   return (

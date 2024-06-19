@@ -10,7 +10,7 @@ export default function Ready() {
         <div className="md:w-1/4 my-4 md:my-0 md:ml-4 flex justify-center items-center">
             <button className="h-14 w-56 bg-white font-medium rounded-xl">
                 <Link to={'/singin'}>
-                    Get started for free
+                    Get started for free 
                 </Link>
             </button>
         </div>

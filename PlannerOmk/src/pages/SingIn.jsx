@@ -1,25 +1,51 @@
-import React, { useState } from 'react';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
-import Assitant from '../components/Assitant';
+import { useState, lazy } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux'
+import { toggle } from '../store/app/auth.js';
+import axios from 'axios';
+
+const Header = lazy(() => import('../components/Header'));
+const Footer = lazy(() => import('../components/Footer'));
+const Assistant = lazy(() => import('../components/Assitant'));
+
+
 
 export default function SignIn() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate()
+  const dispatch = useDispatch();
 
-  const handleFormSubmit = (e) => {
+
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
-    console.log('Email:', email);
-    console.log('Password:', password);
-    // Aquí es donde añadirías la lógica para enviar los datos al backend
+
+    try {
+      const response = await axios.post('http://localhost:3000/users/auth/', {
+        email: email,
+        password: password
+      });
+      if(response.status == 200){
+        console.log('Email:', email);
+        console.log('Password:', password);
+        setEmail('')
+        setPassword('')
+        dispatch(toggle())
+        navigate('/dash-note'); 
+      }
+    } catch (error) {
+      console.error('Error submitting form', error);
+      return alert('Error in auth')
+
+    }
   };
 
   return (
     <>
       <Header />
-      <div className="flex flex-col items-center justify-center min-h-screen py-2 ">
+      <div className="flex flex-col items-center justify-center min-h-screen py-2">
         <h1 className="font-bold text-6xl mb-6">Committed to Simplicity</h1>
-        <div className="bg-white  rounded-lg p-8 w-full max-w-md">
+        <div className="bg-white rounded-lg p-8 w-full max-w-md">
           <form onSubmit={handleFormSubmit} className="space-y-6">
             <div>
               <label htmlFor="email" className="block text-xl font-medium text-gray-700">
@@ -32,7 +58,7 @@ export default function SignIn() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Enter your email address"
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-lg bg-white "
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-lg bg-white"
                 required
               />
             </div>
@@ -92,7 +118,7 @@ export default function SignIn() {
           </div>
         </div>
       </div>
-      <Assitant/>
+      <Assistant /> 
       <Footer />
     </>
   );

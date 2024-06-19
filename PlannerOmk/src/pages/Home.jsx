@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import {  Route, Routes } from 'react-router-dom';
 import Header from "../components/Header";
 import Main from "../components/Main";
 import Image from "../components/Image";
@@ -14,11 +14,10 @@ import Footer from '../components/Footer';
 export default function Home() {
   const [isVisible, setIsVisible] = useState(false);
   const { ref, inView } = useInView({
-    triggerOnce: true, // Para que el evento se dispare solo una vez
-    threshold: 0.5 // Puedes ajustar este valor según tus necesidades
+    triggerOnce: true, 
+    threshold: 0.5 
   });
 
-  // Actualiza el estado cuando el componente está en la vista del usuario
   React.useEffect(() => {
     if (inView) {
       setIsVisible(true);
@@ -36,7 +35,6 @@ export default function Home() {
           <Route exact path="/create-note" element={<Main />} />
         </Routes>
 
-      {/* Renderizamos los componentes cuando están cerca de la vista del usuario */}
         <Image />
         <Assitant />
         <Coments />
@@ -46,7 +44,6 @@ export default function Home() {
         <Question/>
         <Ready/>
         <Footer/>
-      
     </>
   );
 }
